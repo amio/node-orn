@@ -33,6 +33,6 @@
     }
   ],
   "dependencies": {
-    "minimist": "0.0.8"
+    "nopt": "^2.2.1"
   }
 }
