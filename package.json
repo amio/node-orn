@@ -1,0 +1,38 @@
+{
+  "name": "node-orn",
+  "version": "0.0.0",
+  "description": "Oh rename.",
+  "keywords": [
+    "rename",
+    "cli"
+  ],
+  "preferGlobal": "true",
+  "bin": {
+    "orn": "lib/orn.js"
+  },
+  "main": "lib/orn.js",
+  "engines": {
+    "node": "0.8"
+  },
+  "homepage": "https://github.com/amio/node-orn",
+  "author": {
+    "name": "Amio",
+    "email": "amio.cn@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/amio/node-orn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amio/node-orn/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/amio/node-orn/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "minimist": "0.0.8"
+  }
+}
