@@ -11,7 +11,7 @@ $ orn '/<pattern>/<replaceString>/gi'
 Examples:
 
 ```
-$ orn '/(\.js)$/source$1/g' -d
+$ orn '/(\.js)$/.source$1/g' -d
   -- Dry Run --
 * application.js --> application.source.js
 * express.js ------> express.source.js
