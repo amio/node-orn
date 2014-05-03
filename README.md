@@ -1,6 +1,6 @@
 # Oh-Rename
 
-If you know RegExp, you know `orn`.
+If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`. A super simple & easy renamer.
 
 ## Usage
 
