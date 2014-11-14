@@ -1,8 +1,8 @@
 {
-  "name": "node-orn",
-  "version": "0.0.2",
+  "name": "orn",
+  "version": "0.0.3",
   "preferGlobal": "true",
-  "description": "Oh rename.",
+  "description": "Oh Rename (with JavaScript RegExp).",
   "keywords": ["rename", "cli"],
   "bin": {
     "orn": "lib/orn.js"
