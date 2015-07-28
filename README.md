@@ -1,6 +1,6 @@
 # Oh-Rename
 
-If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`. A super simple & easy renamer.
+If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`. A super simple & easy batch renamer.
 
 ## Usage
 
@@ -27,4 +27,4 @@ or:
 ### Switches
 
   -d, --dry-run  
-    Show how the files would be renamed, but don't actually do anything.
+    Show how the files will be renamed, but actually do nothing.

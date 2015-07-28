@@ -11,7 +11,7 @@ const pkgJson = require('./package.json')
 program
   .version(pkgJson.version)
   .usage('[-d] \'/<pattern>/<replaceString>/\'')
-  .option('-d, --dry-run', 'Dry run.')
+  .option('-d, --dry-run', 'Show how the files will be renamed, but actually do nothing.')
 
 program.parse(process.argv)
 
@@ -27,12 +27,12 @@ const opts = program.opts()
 
 fs.readdir('.', function (err, files) {
 
-  err && exit('readdir-err')
+  if(err) exit('readdir-err')
 
   // Prepare the patterns
   const partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
   const parts = program.args[0].match(partsReg)
-  parts.length === 4 || exit('invalid-regex')
+  if(parts.length !== 4) exit('invalid-regex')
   const replacePattern = new RegExp(parts[1], parts[3])
 
   // Visual formating output
@@ -41,7 +41,7 @@ fs.readdir('.', function (err, files) {
     return prev > curr.length ? prev : curr.length
   }, 0)
   const splash = new Array(maxNameLength).join('-') + '--->'
-  opts.dryRun && console.log(chalk[modeColor]('  -- Dry Run --'))
+  if(opts.dryRun) console.log(chalk[modeColor]('  -- Dry Run --'))
 
   // Renaming
   var noModified = true
@@ -49,7 +49,7 @@ fs.readdir('.', function (err, files) {
     var newName = file.replace(replacePattern, parts[2])
     if (newName !== file) {
 
-      !opts.dryRun && fs.renameSync(file, newName)
+      if(!opts.dryRun) fs.renameSync(file, newName)
 
       console.log(
         chalk[modeColor]('*'),
@@ -62,21 +62,21 @@ fs.readdir('.', function (err, files) {
     }
   })
 
-  noModified && console.log('  Nothing to do.')
+  if(noModified) console.log('  Nothing to do.')
 
   exit()
 
 })
 
 function exit(status) {
-  status || (status = 0)
+  if(!status) status = 0
 
   var exitStatus = {
     '0': [0],
     'invalid-regex': [1, 'Invalid pattern or replaceString.'],
-    'readdir-err': [2, 'Cannot read directory.']
+    'readdir-err': [2, 'Cannot read directory.'],
   }
 
-  status && console.log(exitStatus[status][1])
+  if(status) console.log(exitStatus[status][1])
   process.exit(exitStatus[status][0])
 }

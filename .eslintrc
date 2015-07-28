@@ -2,6 +2,7 @@
   env:
 
     node: true
+    es6: true
 
   rules:
 
@@ -15,7 +16,7 @@
 
     # Strict Mode
 
-    global-strict: 0
+    strict: [2, never]
 
     # Consistence
 
