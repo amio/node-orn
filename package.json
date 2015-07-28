@@ -1,5 +1,5 @@
 {
-  "name": "node-orn",
+  "name": "orn",
   "version": "0.0.7",
   "preferGlobal": "true",
   "description": "Oh Rename (with JavaScript RegExp).",
