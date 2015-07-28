@@ -1,9 +1,12 @@
 {
   "name": "node-orn",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "preferGlobal": "true",
   "description": "Oh Rename (with JavaScript RegExp).",
-  "keywords": ["rename", "cli"],
+  "keywords": [
+    "rename",
+    "cli"
+  ],
   "bin": {
     "orn": "index.js"
   },
