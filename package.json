@@ -26,10 +26,7 @@
   "bugs": {
     "url": "https://github.com/amio/node-orn/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/amio/node-orn/blob/master/LICENSE-MIT"
-  },
+  "license": "MIT",
   "dependencies": {
     "colors": "^0.6.2",
     "nopt": "^2.2.1"
