@@ -1,6 +1,6 @@
 {
   "name": "orn",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "preferGlobal": "true",
   "description": "Oh Rename (with JavaScript RegExp).",
   "keywords": [
