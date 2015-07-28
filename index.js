@@ -1,11 +1,29 @@
 #! /usr/bin/env node
 
-var fs = require('fs')
-var opts = require('nopt')({
-  'dry-run': Boolean
-}, {
-  'd': ['--dry-run']
-})
+const fs = require('fs')
+const program = require('commander')
+const colors = require('colors')
+const pkgJson = require('./package.json')
+
+/**
+ * Prepare args & opts
+ */
+program
+  .version(pkgJson.version)
+  .usage('[-d] \'/<pattern>/<replaceString>/\'')
+  .option('-d, --dry-run', 'Dry run.')
+
+program.parse(process.argv)
+
+if (!process.argv.slice(2).length) {
+  program.outputHelp()
+  exit()
+}
+
+/**
+ *
+ */
+const opts = program.opts()
 
 fs.readdir('.', function (err, files) {
 
@@ -15,13 +33,13 @@ fs.readdir('.', function (err, files) {
   var parts, pattern
 
   try {
-    parts = opts.argv.remain[0].match(partsReg)
+    parts = program.args[0].match(partsReg)
     pattern = new RegExp(parts[1], parts[3])
   } catch (err) {
     exit('invalid-regex')
   }
 
-  opts['dry-run'] && console.log('  -- Dry Run --'.yellow)
+  opts.dryRun && console.log('  -- Dry Run --'.yellow)
 
   var maxLength = 0
   files.forEach(function (file) {
@@ -29,14 +47,14 @@ fs.readdir('.', function (err, files) {
   })
   maxLength += 3
   var splash = new Array(maxLength).join('-') + '-->'
-  var status = opts['dry-run'] ? 'yellow' : 'green'
+  var status = opts.dryRun ? 'yellow' : 'green'
 
   var modified = 0
   files.forEach(function (file) {
     var newName = file.replace(pattern, parts[2])
     if (newName !== file) {
       modified++
-      !opts['dry-run'] && fs.renameSync(file, newName)
+      !opts.dryRun && fs.renameSync(file, newName)
       console.log('*'[status], file, splash.substr(file.length - maxLength)[status], newName.bold)
     }
   })
