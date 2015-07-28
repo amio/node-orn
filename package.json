@@ -28,8 +28,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "colors": "^0.6.2",
-    "commander": "^2.8.1",
-    "nopt": "^2.2.1"
+    "chalk": "^1.1.0",
+    "commander": "^2.8.1"
   }
 }

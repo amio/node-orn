@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 
 const fs = require('fs')
+const chalk = require('chalk')
 const program = require('commander')
-const colors = require('colors')
 const pkgJson = require('./package.json')
 
 /**
@@ -21,7 +21,7 @@ if (!process.argv.slice(2).length) {
 }
 
 /**
- *
+ *  MAIN
  */
 const opts = program.opts()
 
@@ -29,39 +29,40 @@ fs.readdir('.', function (err, files) {
 
   err && exit('readdir-err')
 
-  var partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
-  var parts, pattern
+  // Prepare the patterns
+  const partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
+  const parts = program.args[0].match(partsReg)
+  parts.length === 4 || exit('invalid-regex')
+  const replacePattern = new RegExp(parts[1], parts[3])
 
-  try {
-    parts = program.args[0].match(partsReg)
-    pattern = new RegExp(parts[1], parts[3])
-  } catch (err) {
-    exit('invalid-regex')
-  }
+  // Visual formating output
+  const modeColor = opts.dryRun ? 'yellow' : 'green'
+  const maxNameLength = files.reduce(function(prev, curr){
+    return prev > curr.length ? prev : curr.length
+  }, 0)
+  const splash = new Array(maxNameLength).join('-') + '--->'
+  opts.dryRun && console.log(chalk[modeColor]('  -- Dry Run --'))
 
-  opts.dryRun && console.log('  -- Dry Run --'.yellow)
-
-  var maxLength = 0
+  // Renaming
+  var noModified = true
   files.forEach(function (file) {
-    file.length > maxLength && (maxLength = file.length)
-  })
-  maxLength += 3
-  var splash = new Array(maxLength).join('-') + '-->'
-  var status = opts.dryRun ? 'yellow' : 'green'
-
-  var modified = 0
-  files.forEach(function (file) {
-    var newName = file.replace(pattern, parts[2])
+    var newName = file.replace(replacePattern, parts[2])
     if (newName !== file) {
-      modified++
+
       !opts.dryRun && fs.renameSync(file, newName)
-      console.log('*'[status], file, splash.substr(file.length - maxLength)[status], newName.bold)
+
+      console.log(
+        chalk[modeColor]('*'),
+        file,
+        chalk[modeColor](splash.substr(file.length - maxNameLength)),
+        chalk.bold(newName)
+      )
+
+      noModified = false
     }
   })
 
-  if (modified === 0) {
-    console.log('  Nothing to do.')
-  }
+  noModified && console.log('  Nothing to do.')
 
   exit()
 
@@ -72,8 +73,8 @@ function exit(status) {
 
   var exitStatus = {
     '0': [0],
-    'invalid-regex': [1, 'Invalid Regex.'],
-    'readdir-err': [2, 'Cannot read dir.']
+    'invalid-regex': [1, 'Invalid pattern or replaceString.'],
+    'readdir-err': [2, 'Cannot read directory.']
   }
 
   status && console.log(exitStatus[status][1])
