@@ -40,7 +40,7 @@ fs.readdir('.', function (err, files) {
   const maxNameLength = files.reduce(function(prev, curr){
     return prev > curr.length ? prev : curr.length
   }, 0)
-  const splash = new Array(maxNameLength).join('-') + '--->'
+  const splash = new Array(maxNameLength).join('-') + '---->'
   if(opts.dryRun) console.log(chalk[modeColor]('  -- Dry Run --'))
 
   // Renaming
@@ -54,7 +54,7 @@ fs.readdir('.', function (err, files) {
       console.log(
         chalk[modeColor]('*'),
         file,
-        chalk[modeColor](splash.substr(file.length - maxNameLength)),
+        chalk[modeColor](splash.substr(file.length)),
         chalk.bold(newName)
       )
 
