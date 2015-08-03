@@ -10,7 +10,7 @@ const pkgJson = require('./package.json')
  */
 program
   .version(pkgJson.version)
-  .usage('[-d] \'/<pattern>/<replaceString>/\'')
+  .usage("[-d] '/<pattern>/<replaceString>/'")
   .option('-d, --dry-run', 'Show how the files will be renamed, but actually do nothing.')
 
 program.parse(process.argv)
@@ -26,7 +26,6 @@ if (!process.argv.slice(2).length) {
 const opts = program.opts()
 
 fs.readdir('.', function (err, files) {
-
   if (err) exit('readdir-err')
 
   // Prepare the patterns
@@ -49,7 +48,6 @@ fs.readdir('.', function (err, files) {
   files.forEach(function (file) {
     var newName = file.replace(replacePattern, parts[2])
     if (newName !== file) {
-
       if (!opts.dryRun) fs.renameSync(file, newName)
 
       console.log(
@@ -69,7 +67,7 @@ fs.readdir('.', function (err, files) {
 
 })
 
-function exit(status) {
+function exit (status) {
   if (!status) status = 0
 
   var exitStatus = {
