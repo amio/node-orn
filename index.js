@@ -27,22 +27,22 @@ const opts = program.opts()
 
 fs.readdir('.', function (err, files) {
 
-  if(err) exit('readdir-err')
+  if (err) exit('readdir-err')
 
   // Prepare the patterns
   const partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
   const parts = program.args[0].match(partsReg)
-  if(!parts || parts.length !== 4) exit('invalid-format')
+  if (!parts || parts.length !== 4) exit('invalid-format')
 
   const replacePattern = new RegExp(parts[1], parts[3])
 
   // Visual formating output
   const modeColor = opts.dryRun ? 'yellow' : 'green'
-  const maxNameLength = files.reduce(function(prev, curr){
+  const maxNameLength = files.reduce(function (prev, curr) {
     return prev > curr.length ? prev : curr.length
   }, 0)
   const splash = new Array(maxNameLength).join('-') + '---->'
-  if(opts.dryRun) console.log(chalk[modeColor]('  -- Dry Run --'))
+  if (opts.dryRun) console.log(chalk[modeColor]('  -- Dry Run --'))
 
   // Renaming
   var noModified = true
@@ -50,7 +50,7 @@ fs.readdir('.', function (err, files) {
     var newName = file.replace(replacePattern, parts[2])
     if (newName !== file) {
 
-      if(!opts.dryRun) fs.renameSync(file, newName)
+      if (!opts.dryRun) fs.renameSync(file, newName)
 
       console.log(
         chalk[modeColor]('*'),
@@ -63,14 +63,14 @@ fs.readdir('.', function (err, files) {
     }
   })
 
-  if(noModified) console.log('  Nothing to do.')
+  if (noModified) console.log('  Nothing to do.')
 
   exit()
 
 })
 
 function exit(status) {
-  if(!status) status = 0
+  if (!status) status = 0
 
   var exitStatus = {
     '0': [0],
@@ -78,6 +78,6 @@ function exit(status) {
     'readdir-err': [2, 'Cannot read directory.'],
   }
 
-  if(status) console.log(exitStatus[status][1])
+  if (status) console.log(exitStatus[status][1])
   process.exit(exitStatus[status][0])
 }

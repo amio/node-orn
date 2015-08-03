@@ -9,7 +9,7 @@ describe('bin', function () {
 
   it('should exit with status 1 if regex is invalid', function (cb) {
     const nodeArgs = [binPath, '/wrong-regex/format', '-d']
-    const cp = execFile('node', nodeArgs, function(error, stdout, stderr,go){
+    const cp = execFile('node', nodeArgs, function (error, stdout, stderr, go) {
       assert.strictEqual(error && error.code, 1)
       cb()
     })
