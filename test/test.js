@@ -7,6 +7,14 @@ const binPath = path.join(__dirname, '../', pkg.bin.orn)
 
 describe('bin', function () {
 
+  it('should exit with status 1 if regex is invalid', function (cb) {
+    const nodeArgs = [binPath, '/wrong-regex/format', '-d']
+    const cp = execFile('node', nodeArgs, function(error, stdout, stderr,go){
+      assert.strictEqual(error && error.code, 1)
+      cb()
+    })
+  })
+
   it('should return the version', function (cb) {
     const cp = execFile('node', [binPath, '--version'])
     const expected = pkg.version

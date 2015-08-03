@@ -32,7 +32,8 @@ fs.readdir('.', function (err, files) {
   // Prepare the patterns
   const partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
   const parts = program.args[0].match(partsReg)
-  if(parts.length !== 4) exit('invalid-regex')
+  if(!parts || parts.length !== 4) exit('invalid-format')
+
   const replacePattern = new RegExp(parts[1], parts[3])
 
   // Visual formating output
@@ -73,7 +74,7 @@ function exit(status) {
 
   var exitStatus = {
     '0': [0],
-    'invalid-regex': [1, 'Invalid pattern or replaceString.'],
+    'invalid-format': [1, 'Invalid pattern or replaceString. Try "orn --help".'],
     'readdir-err': [2, 'Cannot read directory.'],
   }
 
