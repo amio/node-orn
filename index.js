@@ -63,7 +63,6 @@ fs.readdir('.', function (err, files) {
   if (noModified) console.log('  Nothing to do.')
 
   exit()
-
 })
 
 function exit (status) {
@@ -72,7 +71,7 @@ function exit (status) {
   var exitStatus = {
     '0': [0],
     'invalid-format': [1, 'Invalid pattern or replaceString. Try "orn --help".'],
-    'readdir-err': [2, 'Cannot read directory.'],
+    'readdir-err': [2, 'Cannot read directory.']
   }
 
   if (status) console.log(exitStatus[status][1])

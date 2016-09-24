@@ -3,38 +3,29 @@
   "version": "1.0.4",
   "preferGlobal": "true",
   "description": "Oh Rename (with JavaScript RegExp).",
-  "keywords": [
-    "rename",
-    "cli"
-  ],
+  "author": "Amio <amio.cn@gmail.com>",
+  "repository": "amio/node-orn",
+  "license": "MIT",
   "bin": {
     "orn": "index.js"
   },
   "main": "index.js",
-  "engines": {
-    "node": ">=0.12"
-  },
   "scripts": {
     "test": "mocha test/**/*.js"
   },
-  "homepage": "https://github.com/amio/node-orn",
-  "author": {
-    "name": "Amio",
-    "email": "amio.cn@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/amio/node-orn.git"
-  },
-  "bugs": {
-    "url": "https://github.com/amio/node-orn/issues"
-  },
-  "license": "MIT",
   "dependencies": {
     "chalk": "^1.1.0",
     "commander": "^2.8.1"
   },
   "devDependencies": {
-    "mocha": "^2.2.5"
+    "mocha": "^2.5.3",
+    "standard": "^8.1.0"
+  },
+  "keywords": [
+    "rename",
+    "cli"
+  ],
+  "engines": {
+    "node": ">=0.12"
   }
 }
