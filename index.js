@@ -2,52 +2,62 @@
 
 const fs = require('fs')
 const chalk = require('chalk')
-const program = require('commander')
-const pkgJson = require('./package.json')
+const minimist = require('minimist')
+
+const helpInfo = `
+  Usage: orn <RegExp> <replaceString> [-d]
+
+  Options:
+
+    -h, --help         Output usage information
+    -v, --version      Output the version number
+    -d, --dry-run      Show how the files will be renamed, but actually do nothing.
+
+  Examples:
+
+    orn /720p/i 1080P            # Replace "720p" with "1080P"
+    orn '/(\.js)/i' '.min$1' -d   # Add ".min" to js/json files.
+`
+
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    'h': 'help',
+    'v': 'version',
+    'd': 'dry-run'
+  }
+})
+
+argv.help && exit('help')
+argv.version && exit('version')
+argv._.length < 2 && exit('missing-args')
 
 /**
  * Prepare args & opts
  */
-program
-  .version(pkgJson.version)
-  .usage("[-d] '/<pattern>/<replaceString>/'")
-  .option('-d, --dry-run', 'Show how the files will be renamed, but actually do nothing.')
-
-program.parse(process.argv)
-
-if (!program.args.length) {
-  program.help()
-}
 
 /**
  *  MAIN
  */
-const opts = program.opts()
+const replacePattern = parseRegExp(argv._[0])
+const replaceString = argv._[1]
 
 fs.readdir('.', function (err, files) {
   if (err) exit('readdir-err')
 
-  // Prepare the patterns
-  const partsReg = /^\/([^/]+)\/([^/]*)\/([gimy]*)$/
-  const parts = program.args[0].match(partsReg)
-  if (!parts || parts.length !== 4) exit('invalid-format')
-
-  const replacePattern = new RegExp(parts[1], parts[3])
-
   // Visual formating output
-  const modeColor = opts.dryRun ? 'yellow' : 'green'
+  const modeColor = argv.d ? 'yellow' : 'green'
   const maxNameLength = files.reduce(function (prev, curr) {
     return prev > curr.length ? prev : curr.length
   }, 0)
   const splash = new Array(maxNameLength).join('-') + '---->'
-  if (opts.dryRun) console.log(chalk[modeColor]('  -- Dry Run --'))
+  if (argv.d) console.log(chalk[modeColor]('  -- Dry Run --'))
 
   // Renaming
   var noModified = true
   files.forEach(function (file) {
-    var newName = file.replace(replacePattern, parts[2])
+    var newName = file.replace(replacePattern, replaceString)
     if (newName !== file) {
-      if (!opts.dryRun) fs.renameSync(file, newName)
+      if (!argv.d) fs.renameSync(file, newName)
 
       console.log(
         chalk[modeColor]('*'),
@@ -65,15 +75,25 @@ fs.readdir('.', function (err, files) {
   exit()
 })
 
-function exit (status) {
-  if (!status) status = 0
+function parseRegExp (regstr) {
+  const parts = regstr.match(/^\/(.+)\/([gimy]*)$/)
 
-  var exitStatus = {
-    '0': [0],
-    'invalid-format': [1, 'Invalid pattern or replaceString. Try "orn --help".'],
-    'readdir-err': [2, 'Cannot read directory.']
+  if (parts) {
+    return new RegExp(parts[1], parts[2])
+  } else {
+    exit('invalid-reg')
+  }
+}
+
+function exit (status) {
+  const exitStatus = {
+    'help': [0, helpInfo],
+    'version': [0, 'v' + require('./package.json').version],
+    'missing-args': [1, 'Missing args.'],
+    'invalid-reg': [2, 'Invalid regular expression.'],
+    'readdir-err': [3, 'Cannot read current directory.']
   }
 
-  if (status) console.log(exitStatus[status][1])
-  process.exit(exitStatus[status][0])
+  status && console.log(exitStatus[status][1])  // output message
+  process.exit(status && exitStatus[status][0]) // exit with code
 }

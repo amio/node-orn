@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "chalk": "^1.1.0",
-    "commander": "^2.8.1"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "mocha": "^3.0.2",
