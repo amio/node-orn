@@ -11,14 +11,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**/*.js"
+    "test": "standard index.js && mocha test/**/*.js"
   },
   "dependencies": {
     "chalk": "^1.1.0",
     "commander": "^2.8.1"
   },
   "devDependencies": {
-    "mocha": "^2.5.3",
+    "mocha": "^3.0.2",
     "standard": "^8.1.0"
   },
   "keywords": [
