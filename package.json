@@ -9,9 +9,9 @@
   "bin": {
     "orn": "index.js"
   },
-  "main": "index.js",
   "scripts": {
-    "test": "standard index.js && mocha test/**/*.js"
+    "pretest": "standard index.js",
+    "test": "mocha test/**/*.js"
   },
   "dependencies": {
     "chalk": "^1.1.0",
@@ -26,6 +26,6 @@
     "cli"
   ],
   "engines": {
-    "node": ">=0.12"
+    "node": ">=4"
   }
 }
