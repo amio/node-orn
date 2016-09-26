@@ -2,7 +2,13 @@
 
 const fs = require('fs')
 const chalk = require('chalk')
-const minimist = require('minimist')
+const argv = require('minimist')(process.argv.slice(2), {
+  alias: {
+    'h': 'help',
+    'v': 'version',
+    'd': 'dry-run'
+  }
+})
 
 const helpInfo = `
   Usage: orn <RegExp> <replaceString> [-d]
@@ -15,65 +21,61 @@ const helpInfo = `
 
   Examples:
 
-    orn /720p/i 1080P            # Replace "720p" with "1080P"
+    orn /720p/i 1080P            # Replace "720p" with "1080P".
     orn '/(\.js)/i' '.min$1' -d   # Add ".min" to js/json files.
 `
-
-const argv = minimist(process.argv.slice(2), {
-  alias: {
-    'h': 'help',
-    'v': 'version',
-    'd': 'dry-run'
-  }
-})
 
 argv.help && exit('help')
 argv.version && exit('version')
 argv._.length < 2 && exit('missing-args')
 
 /**
- * Prepare args & opts
- */
-
-/**
  *  MAIN
  */
+
 const replacePattern = parseRegExp(argv._[0])
 const replaceString = argv._[1]
 
 fs.readdir('.', function (err, files) {
   if (err) exit('readdir-err')
 
-  // Visual formating output
+  // Get files to renaming
+  const renameTasks = files.map(filename => {
+    const newname = filename.replace(replacePattern, replaceString)
+    return newname === filename ? undefined : [filename, newname]
+  }).filter(item => item !== undefined)
+
+  if (renameTasks.length === 0) exit('no-match')
+
+  // Prepare visual formating
   const modeColor = argv.d ? 'yellow' : 'green'
-  const maxNameLength = files.reduce(function (prev, curr) {
-    return prev > curr.length ? prev : curr.length
+  const maxNameLength = renameTasks.reduce(function (prev, curr) {
+    return Math.max(prev, curr[0].length, curr[1].length)
   }, 0)
-  const splash = new Array(maxNameLength).join('-') + '---->'
-  if (argv.d) console.log(chalk[modeColor]('  -- Dry Run --'))
 
-  // Renaming
-  var noModified = true
-  files.forEach(function (file) {
-    var newName = file.replace(replacePattern, replaceString)
-    if (newName !== file) {
-      if (!argv.d) fs.renameSync(file, newName)
+  argv.d && console.info(chalk[modeColor]('   -- Dry Run --'))
 
-      console.log(
-        chalk[modeColor]('*'),
-        file,
-        chalk[modeColor](splash.substr(file.length)),
-        chalk.bold(newName)
-      )
+  renameTasks.forEach(names => {
+    if (!argv.d) fs.renameSync(names[0], names[1])
 
-      noModified = false
-    }
+    printRenamedLine(names, maxNameLength, modeColor)
   })
-
-  if (noModified) console.log('  Nothing to do.')
 
   exit()
 })
+
+const printRenamedLine = (() => {
+  return function (names, maxLength, modeColor) {
+    const arrow = new Array(maxLength).join('-') + '-->'
+    const color = chalk[modeColor]
+    const line = [
+      color(' * ') + names[0],
+      color(arrow.substr(names[0].length)),
+      chalk.bold(names[1])
+    ].join(' ')
+    console.log(line)
+  }
+})()
 
 function parseRegExp (regstr) {
   const parts = regstr.match(/^\/(.+)\/([gimy]*)$/)
@@ -89,6 +91,7 @@ function exit (status) {
   const exitStatus = {
     'help': [0, helpInfo],
     'version': [0, 'v' + require('./package.json').version],
+    'no-match': [0, 'No matched files.'],
     'missing-args': [1, 'Missing args.'],
     'invalid-reg': [2, 'Invalid regular expression.'],
     'readdir-err': [3, 'Cannot read current directory.']
