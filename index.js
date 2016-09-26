@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+'use strict'
 
 const fs = require('fs')
 const chalk = require('chalk')
@@ -55,13 +56,11 @@ fs.readdir('.', function (err, files) {
 
   argv.d && console.info(chalk[modeColor]('   -- Dry Run --'))
 
+  // Do rename
   renameTasks.forEach(names => {
     if (!argv.d) fs.renameSync(names[0], names[1])
-
     printRenamedLine(names, maxNameLength, modeColor)
   })
-
-  exit()
 })
 
 const printRenamedLine = (() => {
