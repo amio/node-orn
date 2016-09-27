@@ -1,10 +1,10 @@
 # Oh-Rename
 
-If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`. A super simple & easy batch renamer.
+If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`, a super simple batch renamer.
 
 ## Usage
 
-Use it like what you would do with `String.prototype.replace(<RegExp>, <replacementString>)`
+Just like `String.prototype.replace(<RegExp>, <replacementString>)` in cli:
 
 ```
 Usage: orn <RegExp> <replacementString> [-d]
@@ -13,24 +13,15 @@ Options:
 
   -h, --help         Output usage information
   -v, --version      Output the version number
-  -d, --dry-run      Show how the files will be renamed, but actually do nothing.
-```
+  -d, --dry-run      Show how the files will be renamed, but actually do nothing
 
 Examples:
 
-```
-$ orn '/(\.js)$/g' '.source$1' -d
-  -- Dry Run --
-* application.js --> application.source.js
-* express.js ------> express.source.js
-* request.js ------> request.source.js
-* response.js -----> response.source.js
-* utils.js --------> utils.source.js
-* view.js ---------> view.source.js
+  orn /720p/i 1080P              # Replace "720p" or "720P" with "1080P".
+  orn '/(\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
 ```
 
-or:
-![orn usage screenshot](https://cloud.githubusercontent.com/assets/215282/8894168/1189fa66-33df-11e5-8191-9dae0e49c0bd.png)
+<img src="https://cloud.githubusercontent.com/assets/215282/18861799/8bc3a9e4-84ba-11e6-992c-6ad8483b78b8.png" height="181" width="537" />
 
 ### Switches
 
