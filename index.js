@@ -51,8 +51,11 @@ fs.readdir('.', function (err, files) {
   // Prepare visual formating
   const modeColor = argv.d ? 'yellow' : 'green'
   const maxNameLength = renameTasks.reduce(function (prev, curr) {
-    return Math.max(prev, curr[0].length, curr[1].length)
-  }, 0)
+    return [
+      Math.max(prev[0], curr[0].length),
+      Math.max(prev[1], curr[1].length)
+    ]
+  }, [0, 0])
 
   argv.d && console.info(chalk[modeColor]('   -- Dry Run --'))
 
@@ -65,14 +68,12 @@ fs.readdir('.', function (err, files) {
 
 const printRenamedLine = (() => {
   return function (names, maxLength, modeColor) {
-    const arrow = new Array(maxLength).join('-') + '-->'
     const color = chalk[modeColor]
-    const line = [
-      color(' * ') + names[0],
-      color(arrow.substr(names[0].length)),
-      chalk.bold(names[1])
-    ].join(' ')
-    console.log(line)
+    const arrowLengthy = new Array(maxLength[0]).join('-') + '--->'
+    const arrow = maxLength[0] + maxLength[1] + 8 < process.stdout.columns
+      ? color(arrowLengthy.substr(names[0].length))
+      : color('\n >')
+    console.log(color(' *'), names[0], arrow, chalk.bold(names[1]))
   }
 })()
 
