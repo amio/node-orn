@@ -4,14 +4,22 @@ If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaSc
 
 ## Usage
 
+Use it like what you would do with `String.prototype.replace(<RegExp>, <replacementString>)`
+
 ```
-$ orn '/<pattern>/<replaceString>/gi'
+Usage: orn <RegExp> <replacementString> [-d]
+
+Options:
+
+  -h, --help         Output usage information
+  -v, --version      Output the version number
+  -d, --dry-run      Show how the files will be renamed, but actually do nothing.
 ```
 
 Examples:
 
 ```
-$ orn '/(\.js)$/.source$1/g' -d
+$ orn '/(\.js)$/g' '.source$1' -d
   -- Dry Run --
 * application.js --> application.source.js
 * express.js ------> express.source.js

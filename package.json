@@ -2,7 +2,7 @@
   "name": "orn",
   "version": "1.0.4",
   "preferGlobal": "true",
-  "description": "Oh Rename (with JavaScript RegExp).",
+  "description": "Oh-rename (with JavaScript RegExp).",
   "author": "Amio <amio.cn@gmail.com>",
   "repository": "amio/node-orn",
   "license": "MIT",

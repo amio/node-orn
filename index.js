@@ -11,23 +11,24 @@ const argv = require('minimist')(process.argv.slice(2), {
 })
 
 const helpInfo = `
-  Usage: orn <RegExp> <replaceString> [-d]
+  Usage: orn <RegExp> <replacementString> [-d]
 
   Options:
 
     -h, --help         Output usage information
     -v, --version      Output the version number
-    -d, --dry-run      Show how the files will be renamed, but actually do nothing.
+    -d, --dry-run      Show how the files will be renamed, but actually do nothing
 
   Examples:
 
-    orn /720p/i 1080P            # Replace "720p" with "1080P".
-    orn '/(\.js)/i' '.min$1' -d   # Add ".min" to js/json files.
+    orn /720p/i 1080P              # Replace "720p" or "720P" with "1080P".
+    orn '/(\\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
 `
 
 argv.help && exit('help')
 argv.version && exit('version')
-argv._.length < 2 && exit('missing-args')
+argv._.length === 0 && exit('help')
+argv._.length === 1 && exit('missing-args')
 
 /**
  *  MAIN
