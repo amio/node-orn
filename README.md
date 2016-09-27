@@ -21,7 +21,7 @@ Examples:
   orn '/(\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
 ```
 
-<img height="181" width="537" align="center" src="https://cloud.githubusercontent.com/assets/215282/18861799/8bc3a9e4-84ba-11e6-992c-6ad8483b78b8.png" />
+<p align="center"><img height="181" width="537" src="https://cloud.githubusercontent.com/assets/215282/18861799/8bc3a9e4-84ba-11e6-992c-6ad8483b78b8.png" /></p>
 
 ### Switches
 
@@ -30,9 +30,8 @@ Examples:
 
 ### License
 
-[MIT][mit] © [Amio][author]
+MIT © [Amio][author]
 
 [npm-badge]:https://img.shields.io/npm/v/orn.svg?style=flat-square
 [npm-link]: https://www.npmjs.com/package/orn
-[mit]:      https://opensource.org/licenses/MIT
 [author]:   https://github.com/amio
