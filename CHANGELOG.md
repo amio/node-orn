@@ -11,8 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - New grammar: `orn <RegExp> <replacementString> [-d]`.
 - Optimize output for lengthy filenames.
 
-## [1.0.1] - 2015-08-02
+## 1.0.4 - 2015-07-28
 
 ### Added
 - Original release.
 - `orn '/<pattern>/<replaceString>/gi'`
+
+[2.0.0]: https://github.com/amio/node-orn/compare/v1.0.4...v2.0.0
