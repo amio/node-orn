@@ -1,6 +1,6 @@
 {
   "name": "orn",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "preferGlobal": "true",
   "description": "Oh-rename (with JavaScript RegExp).",
   "author": "Amio <amio.cn@gmail.com>",
