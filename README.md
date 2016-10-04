@@ -4,10 +4,17 @@ If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaSc
 
 ## Usage
 
-Just like `String.prototype.replace(<RegExp>, <replacementString>)` in cli:
+Just like `String.prototype.replace(<pattern>, <replacement>)` in cli,
+which `<pattern>` could be a `RegExp` or `String`,
+and `<replacement>` could be a `String` or `Arrow Function`:
 
 ```
-Usage: orn <RegExp> <replacementString> [-d]
+Usage: orn <pattern> <replacement> [-d]
+
+Arguments:
+
+  <pattern>          The pattern to be replaced, could be a String or RegExp.
+  <replacement>      The String to be replace with, Arrow Function is supported.
 
 Options:
 

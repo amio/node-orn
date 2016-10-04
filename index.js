@@ -14,6 +14,11 @@ const argv = require('minimist')(process.argv.slice(2), {
 const helpInfo = `
   Usage: orn <RegExp> <replacementString> [-d]
 
+  Arguments:
+
+    <pattern>          The pattern to be replaced, could be a String or RegExp.
+    <replacement>      The String to be replace with, Arrow Function is supported.
+
   Options:
 
     -h, --help         Output usage information
@@ -38,7 +43,7 @@ argv._.length === 1 && exit('missing-args')
  */
 
 const replacePattern = parseRegExp(argv._[0])
-const replaceWith = parseReplaced(argv._[1])
+const replacement = parseReplaced(argv._[1])
 
 fs.readdir('.', function (err, files) {
   if (err) exit('readdir-err')
@@ -46,7 +51,7 @@ fs.readdir('.', function (err, files) {
   // Get files to renaming
   const renameTasks = files.map(filename => {
     try {
-      const newname = filename.replace(replacePattern, replaceWith)
+      const newname = filename.replace(replacePattern, replacement)
       return newname === filename ? undefined : [filename, newname]
     } catch (e) {
       exit('catched-err', e)
