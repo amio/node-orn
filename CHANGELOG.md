@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## To Be Released
+## [2.1.0] - 2016-10-05
 
 ### Added
 - Support plain string in first arg. `orn 720p 1080p`
@@ -24,3 +24,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `orn '/<pattern>/<replaceString>/gi'`
 
 [2.0.0]: https://github.com/amio/node-orn/compare/v1.0.4...v2.0.0
+[2.1.0]: https://github.com/amio/node-orn/compare/v2.0.0...v2.1.0
