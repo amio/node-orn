@@ -21,6 +21,7 @@ const helpInfo = `
 
   Examples:
 
+    orn 720p 1080P                 # Replace "720p" with "1080P".
     orn /720p/i 1080P              # Replace "720p" or "720P" with "1080P".
     orn '/(\\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
 `
@@ -46,7 +47,7 @@ fs.readdir('.', function (err, files) {
     return newname === filename ? undefined : [filename, newname]
   }).filter(item => item !== undefined)
 
-  if (renameTasks.length === 0) exit('no-match')
+  if (renameTasks.length === 0) exit('no-match', replacePattern)
 
   // Prepare visual formating
   const modeColor = argv.d ? 'yellow' : 'green'
@@ -77,21 +78,22 @@ const printRenamedLine = (() => {
   }
 })()
 
-function parseRegExp (regstr) {
-  const parts = regstr.match(/^\/(.+)\/([gimy]*)$/)
+function parseRegExp (patternString) {
+  const parts = patternString.match(/^\/(.+)\/([gimy]*)$/)
 
   if (parts) {
     return new RegExp(parts[1], parts[2])
   } else {
-    exit('invalid-reg')
+    // exit('invalid-reg')
+    return patternString
   }
 }
 
-function exit (status) {
+function exit (status, info) {
   const exitStatus = {
     'help': [0, helpInfo],
     'version': [0, 'v' + require('./package.json').version],
-    'no-match': [0, 'No matched files.'],
+    'no-match': [0, 'No filename match: "' + info + '"'],
     'missing-args': [1, 'Missing args.'],
     'invalid-reg': [2, 'Invalid regular expression.'],
     'readdir-err': [3, 'Cannot read current directory.']
