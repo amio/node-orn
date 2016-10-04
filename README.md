@@ -4,9 +4,7 @@ If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaSc
 
 ## Usage
 
-Just like `String.prototype.replace(<pattern>, <replacement>)` in cli,
-which `<pattern>` could be a `RegExp` or `String`,
-and `<replacement>` could be a `String` or `Arrow Function`:
+Just like `String.prototype.replace(<pattern>, <replacement>)` in cli:
 
 ```
 Usage: orn <pattern> <replacement> [-d]
