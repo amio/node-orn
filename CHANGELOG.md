@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Support plain string in first arg. `orn 720p 1080p`
+- Support arrow function in second arg. `orn '/\S+mp3$/g' 'x=>x.toLowerCase()'`
 
 ## [2.0.0] - 2016-09-27
 

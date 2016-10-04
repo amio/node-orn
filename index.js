@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 const fs = require('fs')
+const vm = require('vm')
 const chalk = require('chalk')
 const argv = require('minimist')(process.argv.slice(2), {
   alias: {
@@ -21,9 +22,10 @@ const helpInfo = `
 
   Examples:
 
-    orn 720p 1080P                 # Replace "720p" with "1080P".
-    orn /720p/i 1080P              # Replace "720p" or "720P" with "1080P".
-    orn '/(\\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
+    orn 720p 1080P                         # Replace "720p" with "1080P".
+    orn /720p/i 1080P                      # Replace "720p" or "720P" with "1080P".
+    orn '/(\\.js)$/i' '.min$1' -d           # Add ".min" to js files, in dry-run.
+    orn '/\\S+mp3$/g' 'x=>x.toLowerCase()'  # Change mp3 filename to lowercase.
 `
 
 argv.help && exit('help')
@@ -36,18 +38,22 @@ argv._.length === 1 && exit('missing-args')
  */
 
 const replacePattern = parseRegExp(argv._[0])
-const replaceString = argv._[1]
+const replaceWith = parseReplaced(argv._[1])
 
 fs.readdir('.', function (err, files) {
   if (err) exit('readdir-err')
 
   // Get files to renaming
   const renameTasks = files.map(filename => {
-    const newname = filename.replace(replacePattern, replaceString)
-    return newname === filename ? undefined : [filename, newname]
+    try {
+      const newname = filename.replace(replacePattern, replaceWith)
+      return newname === filename ? undefined : [filename, newname]
+    } catch (e) {
+      exit('catched-err', e)
+    }
   }).filter(item => item !== undefined)
 
-  if (renameTasks.length === 0) exit('no-match', replacePattern)
+  if (renameTasks.length === 0) exit('no-change', replacePattern)
 
   // Prepare visual formating
   const modeColor = argv.d ? 'yellow' : 'green'
@@ -89,14 +95,20 @@ function parseRegExp (patternString) {
   }
 }
 
+function parseReplaced (string) {
+  const isArrowFn = /^\w+\s*=>/.test(string)
+  return isArrowFn ? vm.runInNewContext(string) : string
+}
+
 function exit (status, info) {
   const exitStatus = {
     'help': [0, helpInfo],
     'version': [0, 'v' + require('./package.json').version],
-    'no-match': [0, 'No filename match: "' + info + '"'],
+    'no-change': [0, 'No file to rename'],
     'missing-args': [1, 'Missing args.'],
     'invalid-reg': [2, 'Invalid regular expression.'],
-    'readdir-err': [3, 'Cannot read current directory.']
+    'readdir-err': [3, 'Cannot read current directory.'],
+    'catched-err': [100, info]
   }
 
   status && console.log(exitStatus[status][1])  // output message

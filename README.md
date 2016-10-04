@@ -17,8 +17,10 @@ Options:
 
 Examples:
 
-  orn /720p/i 1080P              # Replace "720p" or "720P" with "1080P".
-  orn '/(\.js)$/i' '.min$1' -d   # Add ".min" to js files, in dry-run.
+  orn 720p 1080P                        # Replace "720p" with "1080P".
+  orn /720p/i 1080P                     # Replace "720p" or "720P" with "1080P".
+  orn '/(\.js)$/i' '.min$1' -d          # Add ".min" to js files, in dry-run.
+  orn '/\S+mp3$/' 'x=>x.toLowerCase()'  # Change mp3 filename to lowercase.
 ```
 
 <p align="center"><img height="181" width="537" src="https://cloud.githubusercontent.com/assets/215282/18861799/8bc3a9e4-84ba-11e6-992c-6ad8483b78b8.png" /></p>
