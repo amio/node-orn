@@ -1,10 +1,9 @@
-# Oh-Rename [![npm-version][npm-badge]][npm-link]
+# orn [![npm-version][npm-badge]][npm-link]
 
-If you know [JavaScript RegExp](https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions), you know `orn`, a super simple batch renamer.
+If you know [JavaScript RegExp][js-regexp], you know `orn`, a file renamer
+just like `String.prototype.replace(<pattern>, <replacement>)` in cli.
 
 ## Usage
-
-Just like `String.prototype.replace(<pattern>, <replacement>)` in cli:
 
 ```
 Usage: orn <pattern> <replacement> [-d]
@@ -39,6 +38,7 @@ Examples:
 
 MIT © [Amio][author]
 
+[js-regexp]:https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions
 [npm-badge]:https://img.shields.io/npm/v/orn.svg?style=flat-square
 [npm-link]: https://www.npmjs.com/package/orn
 [author]:   https://github.com/amio
