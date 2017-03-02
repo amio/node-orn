@@ -1,5 +1,7 @@
 # orn [![npm-version][npm-badge]][npm-link]
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/amio/node-orn.svg)](https://greenkeeper.io/)
+
 If you know [JavaScript RegExp][js-regexp], you know `orn`, a file renamer
 just like `String.prototype.replace(<pattern>, <replacement>)` in cli.
 
